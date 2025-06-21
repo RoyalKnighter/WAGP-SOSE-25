@@ -10,7 +10,7 @@ if (!isset($_SESSION['logged_in'])) { header("Location: index.php"); exit; }
 <h2>Willkommen</h2>
 <ul>
     <li><a href="sources.php">Sources verwalten</a></li>
-    <li><a href="problems.php">Problemwörter verwalten</a></li>
+    <li><a href="problems.php">Problemw&ouml;rter verwalten</a></li>
     <li><a href="memory.php">Memory erstellen</a></li>
     <li><a href="logout.php">Logout</a></li>
 </ul>

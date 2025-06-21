@@ -21,23 +21,23 @@ $words = $pdo->query("SELECT * FROM problem_words")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html>
-<head><title>Problemwörter</title></head>
+<head><title>Problemw&ouml;rter</title></head>
 <body>
 <h2>Problemwörter</h2>
 <form method="post">
     <input name="word" placeholder="Wort">
-    <textarea name="explanation" placeholder="Erklärung"></textarea>
-    <input type="submit" value="Hinzufügen">
+    <textarea name="explanation" placeholder="Erkl&auml;rung"></textarea>
+    <input type="submit" value="Hinzuf&uuml;gen">
 </form>
 
 <ul>
 <?php foreach ($words as $w): ?>
     <li><?= htmlspecialchars($w['word']) ?> 
-        <a href="?delete=<?= $w['id'] ?>">Löschen</a>
+        <a href="?delete=<?= $w['id'] ?>">L&ouml;schen</a>
     </li>
 <?php endforeach; ?>
 </ul>
 
-<a href="dashboard.php">Zurück</a>
+<a href="dashboard.php">Zur&uuml;ck</a>
 </body>
 </html>

@@ -1,9 +1,12 @@
 <?php
 session_start();
 require_once 'config.php';
-if (!isset($_SESSION['logged_in'])) { header("Location: index.php"); exit; }
+if (!isset($_SESSION['logged_in'])) {
+    header("Location: index.php");
+    exit;
+}
 
-$pdo = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME, DB_USER, DB_PASS);
+$pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
 
 // Create
 if (isset($_POST['title'], $_POST['content'])) {
@@ -21,23 +24,30 @@ $sources = $pdo->query("SELECT * FROM sources")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html>
-<head><title>Sources</title></head>
+
+<head>
+    <title>Sources</title>
+</head>
+
 <body>
-<h2>Sources</h2>
-<form method="post">
-    <input name="title" placeholder="Titel">
-    <textarea name="content" placeholder="Inhalt"></textarea>
-    <input type="submit" value="Hinzufügen">
-</form>
+    <h2>Sources</h2>
+    <form method="post">
+        <input name="title" placeholder="Titel">
+        <textarea name="content" placeholder="Inhalt"></textarea>
+        <input type="submit" value="Hinzuf&uuml;gen">
+    </form>
 
-<ul>
-<?php foreach ($sources as $src): ?>
-    <li><?= htmlspecialchars($src['title']) ?> 
-        <a href="?delete=<?= $src['id'] ?>">Löschen</a>
-    </li>
-<?php endforeach; ?>
-</ul>
+    <ul>
+        <?php foreach ($sources as $src): ?>
+            <li><?= htmlspecialchars($src['title']) ?>
+                <br>
+                <?= htmlspecialchars($src['content']) ?>
+                <a href="?delete=<?= $src['id'] ?>">L&ouml;schen</a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
 
-<a href="dashboard.php">Zurück</a>
+    <a href="dashboard.php">Zur&uuml;ck</a>
 </body>
+
 </html>
