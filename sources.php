@@ -42,6 +42,7 @@ $sources = $pdo->query("SELECT * FROM sources")->fetchAll();
             <li><?= htmlspecialchars($src['title']) ?>
                 <br>
                 <?= htmlspecialchars($src['content']) ?>
+                <br>
                 <a href="?delete=<?= $src['id'] ?>">L&ouml;schen</a>
             </li>
         <?php endforeach; ?>
