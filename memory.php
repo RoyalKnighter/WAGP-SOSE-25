@@ -212,8 +212,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     // Zurücksetzen nach kurzer Zeit
                     setTimeout(() => {
-                        a.style.backgroundColor = "lightgrey";
-                        b.style.backgroundColor = "lightgrey";
+			            if (!a.disabled || !b.disabled) {
+                        	a.style.backgroundColor = "lightgrey";
+                        	b.style.backgroundColor = "lightgrey";
+			            }
                         flipped = [];
                     }, 1000);
                 }
