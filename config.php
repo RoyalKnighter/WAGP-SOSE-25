@@ -9,5 +9,5 @@ define('DB_PASS', '');
 define('ADMIN_PASSWORD', '123456789');
 
 // OpenAI API
-define('OPENAI_API_KEY', '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');
+define('OPENAI_API_KEY', 'key');
 ?>
