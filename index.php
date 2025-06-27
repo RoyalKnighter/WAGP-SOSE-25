@@ -10,6 +10,12 @@ if (isset($_POST['password'])) {
     } else {
         $error = "Falsches Passwort";
     }
+} else if (isset($_GET["/pw/"])) {
+    if ($_GET['/pw/'] === ADMIN_PASSWORD) {
+        $_SESSION['logged_in'] = true;
+        header("Location: dashboard.php");
+        exit;
+    }
 }
 ?>
 <!DOCTYPE html>
