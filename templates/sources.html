@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sources</title>
+</head>
+<body>
+    <h2>Sources verwalten</h2>
+
+    <form method="post">
+        <input type="text" name="word" placeholder="Fachbegriff" required>
+        <textarea type="text" name="explanation" placeholder="Erklärung" required></textarea>
+        <button type="submit">Hinzufügen</button>
+    </form>
+
+    <h3>Alle Sources:</h3>
+    <ul>
+        {% for source in sources %}
+            <li>
+                <b>{{ source.word }}</b>: {{ source.explanation }}
+                <a href="{{ url_for('delete_source', id=source.id) }}">Löschen</a>
+            </li>
+        {% else %}
+            <li>Keine Einträge vorhanden.</li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="{{ url_for('index') }}">Zurück zur Startseite</a></p>
+</body>
+</html>
