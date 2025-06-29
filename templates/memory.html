@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Memory</title>
+    <style>
+        #memory-grid button {
+            min-height: 80px;
+            padding: 10px;
+            white-space: normal;
+            font-size: 16px;
+            background-color: lightgrey;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Memory erstellen</h2>
+
+<form method="post">
+    <label>Anzahl Paare:</label>
+    <input type="number" name="paare" required>
+    <input type="submit" value="Erstellen">
+</form>
+
+{% if memory_data %}
+    <h3>Memory Spiel</h3>
+
+    <div id="memory-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+        {% for item in memory_items %}
+            <button
+                data-id="{{ loop.index0 }}"
+                data-value="{{ item.value }}"
+                data-type="{{ item.type }}"
+                data-pair-id="{{ item.pair_id }}"
+                onclick="reveal(this)">
+                {{ item.value }}
+            </button>
+        {% endfor %}
+    </div>
+
+    <script>
+        let flipped = [];
+
+        function reveal(button) {
+            if (flipped.length === 2 || button.disabled) return;
+
+            button.style.backgroundColor = "yellow";
+            flipped.push(button);
+
+            if (flipped.length === 2) {
+                const [a, b] = flipped;
+                const typeA = a.dataset.type;
+                const typeB = b.dataset.type;
+                const pairA = a.dataset.pairId;
+                const pairB = b.dataset.pairId;
+
+                const isMatch = (pairA === pairB);
+                const isValidPair = (typeA !== typeB);
+
+                if (isMatch && isValidPair) {
+                    a.disabled = true;
+                    b.disabled = true;
+
+                    a.style.backgroundColor = '#c7f7c7';
+                    b.style.backgroundColor = '#c7f7c7';
+
+                    flipped = [];
+                } else {
+                    if (isValidPair) {
+                        [a, b].forEach(btn => {
+                            const pairId = btn.dataset.pairId;
+                            const allButtons = document.querySelectorAll(`[data-pair-id='${pairId}']`);
+
+                            let correctTerm = '';
+                            let correctDefinition = '';
+
+                            allButtons.forEach(el => {
+                                if (el.dataset.type === 'term') correctTerm = el.dataset.value;
+                                if (el.dataset.type === 'definition') correctDefinition = el.dataset.value;
+                            });
+
+                            fetch('/save_error', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                body: new URLSearchParams({
+                                    word: correctTerm,
+                                    explanation: correctDefinition
+                                })
+                            });
+                        });
+                    }
+
+                    a.style.backgroundColor = '#f8d7da';
+                    b.style.backgroundColor = '#f8d7da';
+
+                    setTimeout(() => {
+                        if (!a.disabled || !b.disabled) {
+                            a.style.backgroundColor = "lightgrey";
+                            b.style.backgroundColor = "lightgrey";
+                        }
+                        flipped = [];
+                    }, 1000);
+                }
+            }
+        }
+    </script>
+{% elif error %}
+    <p style="color: red;">{{ error }}</p>
+{% endif %}
+
+<a href="/">Zurück zur Startseite</a>
+
+</body>
+</html>
